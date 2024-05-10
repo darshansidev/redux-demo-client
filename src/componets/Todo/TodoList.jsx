@@ -35,36 +35,38 @@ const TodoList = () => {
     // });
 
     // // Have an any error ....
-    // const errorNotify = (error) => toast(`Error ${error}`, {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "dark",
+    const errorNotify = (error) => toast(`Error ${error}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
 
-    // });
+    });3rdwefgvd
 
-    // if (error) {
-    //     errorNotify(error);
-    // }
+    if (error) {
+        errorNotify(error);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 await dispatch(fetchTodoList());
-                toast.success("Todo list loaded successfully", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark"
-                });
+                if (todoList?.length > 0) {
+                    toast.success("Todo list loaded successfully", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark"
+                    });
+                }
             } catch (error) {
                 toast.error(`Error fetching todo list: ${error}`, {
                     position: "top-right",

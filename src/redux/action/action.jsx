@@ -2,7 +2,7 @@
 import axios from 'axios';
 import * as actionTypes from './ActionTypes';
 
-export const baseUrl = `http://localhost:3000/todo`;
+export const baseUrl = `http://localhost:3000/tdo`;
 
 
 export const fetchTodoList = () => {
