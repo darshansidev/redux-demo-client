@@ -7,6 +7,7 @@ import AddTodo from "./componets/Todo/AddTodo";
 import ShowAllTodo from './componets/Todo/ShowAllTodo';
 import HeadNav from './componets/HeadNav';
 import TodoList from './componets/Todo/TodoList';
+import TodoActions from './componets/Todo/TodoActions';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<TodoList />} />
           <Route path="/todo/add" element={<AddTodo />} />
           <Route path="/todo/showAll" element={<ShowAllTodo />} />
+          <Route path="/todo/item/:todoId" element={<TodoActions />} />
         </Routes>
       </BrowserRouter>
     </div>

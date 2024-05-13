@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTodo, fetchTodoList } from '../../redux/action/action';
+import { addTodo, deleteTodo, fetchTodoById, fetchTodoList } from '../../redux/action/action';
 import { ToastContainer, toast } from "react-toastify";
+
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const TodoList = () => {
@@ -9,9 +11,8 @@ const TodoList = () => {
         title: '',
         description: '',
     });
+    const navigate = useNavigate();
 
-    // "title":"test",
-    // "description":"newest things"
     const todoList = useSelector(state => state.todo.todoList.data);
     const dispatch = useDispatch();
 
@@ -57,17 +58,6 @@ const TodoList = () => {
         }));
     };
 
-    // const handleSubmit = event => {
-    //     event.preventDefault();
-    //     const { title, description } = formData;
-    //     const todoData = new FormData();
-    //     todoData.append('title', title);
-    //     todoData.append('description', description);
-
-    //     // post api call here
-    //     dispatch(addTodo(todoData));
-    // };
-
     const handleSubmit = async event => {
         event.preventDefault();
         const { title, description } = formData;
@@ -80,6 +70,10 @@ const TodoList = () => {
             // Dispatch action to update Redux store upon successful todo addition
             await dispatch(addTodo(todoData));
             await dispatch(fetchTodoList());
+            setFormData({
+                title: '',
+                description: '',
+            })
             // Show success message
             toast.success('Todo added successfully', {
                 position: 'top-right',
@@ -91,6 +85,7 @@ const TodoList = () => {
                 progress: undefined,
                 theme: 'dark',
             });
+
         } catch (error) {
             console.log(error, "<error from tiit>")
             toast.error(`Error adding todo: ${error}`, {
@@ -106,6 +101,17 @@ const TodoList = () => {
         }
     };
 
+    const handledelete = async (todoId) => {
+        if (window.confirm('Are you sure you want to delete this todo?')) {
+            await dispatch(deleteTodo(todoId));
+            await dispatch(fetchTodoList());
+        }
+    }
+
+    const handleUpdate = async (todoId) => {
+        dispatch(fetchTodoById(todoId));
+        navigate(`/todo/item/${todoId}`);
+    }
     return (
         <>
 
@@ -118,11 +124,11 @@ const TodoList = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="title" className="form-label ">Title</label>
-                            <input type="text" name="title" className="form-control" id="title" required onChange={handleChange} />
+                            <input type="text" name="title" className="form-control" value={formData.title} id="title" required onChange={handleChange} />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="description" className="form-label ">Description</label>
-                            <input type="text" name="description" className="form-control" id="description" required onChange={handleChange} />
+                            <label htmlFor="description" className="form-label " >Description</label>
+                            <input type="text" name="description" className="form-control" value={formData.description} id="description" required onChange={handleChange} />
                         </div>
                         <div className="container text-center">
                             <input type="submit" className="btn btn-dark form-control" value="Add Todo" />
@@ -130,11 +136,46 @@ const TodoList = () => {
                     </form>
                 </div>
                 <hr className="border border-dark border-1 opacity-50 rounded-3 " />
-                <ul>
-                    {todoList.length !== 0 ? todoList.map(todo => (
-                        <li key={todo.id}>{todo.title} / {todo.description}</li>
-                    )) : <p>No Data Found</p>}
-                </ul>
+
+
+                <div className='my-3'>
+                    <div className="card">
+
+                        <div className="card-body">
+                            <table className="table table-bordered">
+                                <thead className="bg-dark text-white">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        (todoList && todoList.length !== 0) ? todoList.map(todo =>
+                                            <tr key={todo._id}>
+
+                                                <td>{todo.title}</td>
+                                                <td>{todo.description}</td>
+
+                                                <td className='d-flex justify-content-evenly '>
+                                                    {/* <Link to={`/todo/item/${todo._id}`} className="btn btn-primary" onClick={() => dispatch(fetchTodoById(todo._id))}>Edit</Link> */}
+                                                    <button onClick={() => { handleUpdate(todo._id) }} className="btn btn-primary">Edit</button>
+                                                    <button onClick={() => { handledelete(todo._id) }} className="btn btn-danger">Delete</button>
+                                                </td>
+                                            </tr>
+                                        ) : <p>No Data Found</p>
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             <ToastContainer />
         </>
@@ -144,44 +185,7 @@ const TodoList = () => {
 export default TodoList;
 
 
-/*
 
-    const [formData, setFormData] = useState({
-        fullName: '',
-        contactNo: '',
-        email: '',
-        password: '',
-        photoProof: null,
-    });
-
-    const handleChange = event => {
-        const { name, value } = event.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
-
-    const handleFileChange = event => {
-        const file = event.target.files[0];
-        setFormData(prevState => ({
-            ...prevState,
-            photoProof: file,
-        }));
-    };
-
-    const handleSubmit = event => {
-        event.preventDefault();
-        const { fullName, contactNo, email, password, photoProof } = formData;
-        const userData = new FormData();
-        userData.append('fullName', fullName);
-        userData.append('contactNo', contactNo);
-        userData.append('email', email);
-        userData.append('password', password);
-        userData.append('photoProof', photoProof);
-        dispatch(signup(userData));
-    };
-*/
 
 // const fetchTodoListData = () => {
 //     dispatch(fetchTodoList());

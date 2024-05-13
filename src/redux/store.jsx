@@ -2,7 +2,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import todoReducer from './reducer/reducers';
 import { thunk } from 'redux-thunk';
-
+import logger from "redux-logger";
 // ---------persist----------------------
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
 
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
-export const store = createStore(persistedReducer, applyMiddleware(thunk))
+export const store = createStore(persistedReducer, applyMiddleware(thunk, logger))
 export const persistor = persistStore(store)
 
 

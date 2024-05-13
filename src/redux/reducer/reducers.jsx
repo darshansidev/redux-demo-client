@@ -3,20 +3,27 @@ import * as actionTypes from '../action/ActionTypes';
 
 const initialState = {
     todoList: [],
-    error: null
+    error: null,
+    singleTodo: {}
 };
 
 const todoReducer = (state = initialState, action) => {
     switch (action.type) {
-        // Get Todos
+        //-------------------------------------- Get Todos--------------------------------------
         case actionTypes.FETCH_TODOS_SUCCESS:
-            return { ...state, todoList: action.payload, error: null };
+            return { ...state, todoList: action.payload, error: null, singleTodo: {} };
 
         case actionTypes.FETCH_TODOS_FAILURE:
+            return { ...state, error: action.payload, singleTodo: {} };
+
+        //-------------------------------------- Get By Id --------------------------------------
+        case actionTypes.FETCH_SINGLE_TODO_SUCCESS:
+            return { ...state, todoList: [], error: null, singleTodo: action.payload }
+
+        case actionTypes.FETCH_SINGLE_TODO_FAILURE:
             return { ...state, error: action.payload };
 
-
-        // Add Todos
+        //-------------------------------------- Add Todos --------------------------------------
         case actionTypes.ADD_TODO_SUCCESS:
             return {
                 ...state,
@@ -27,7 +34,7 @@ const todoReducer = (state = initialState, action) => {
             return { ...state, error: action.payload };
 
 
-        // Update Todos
+        //-------------------------------------- Update Todos --------------------------------------
         case actionTypes.UPDATE_TODO_SUCCESS:
             return {
                 ...state,
@@ -37,14 +44,19 @@ const todoReducer = (state = initialState, action) => {
             };
 
 
-        // Delete Todos
+        //-------------------------------------- Delete Todos --------------------------------------
         case actionTypes.DELETE_TODO_SUCCESS:
+            const updatedTodos = state.todos.filter(todo => todo._id !== action.payload);
+
             return {
                 ...state,
-                todos: state.todos.filter(todo => todo._id !== action.payload)
+                todos: updatedTodos
             };
 
-        // Default State
+        case actionTypes.DELETE_TODOS_FAILURE:
+            return state;
+
+
         default:
             return state;
     }
