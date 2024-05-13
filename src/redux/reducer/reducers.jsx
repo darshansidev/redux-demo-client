@@ -10,7 +10,7 @@ const todoReducer = (state = initialState, action) => {
     switch (action.type) {
         // Get Todos
         case actionTypes.FETCH_TODOS_SUCCESS:
-            return { ...state, todoList: action.payload, error: null  };
+            return { ...state, todoList: action.payload, error: null };
 
         case actionTypes.FETCH_TODOS_FAILURE:
             return { ...state, error: action.payload };
@@ -22,6 +22,9 @@ const todoReducer = (state = initialState, action) => {
                 ...state,
                 todos: [...state.todos, action.payload]
             };
+
+        case actionTypes.ADD_TODOS_FAILURE:
+            return { ...state, error: action.payload };
 
 
         // Update Todos
