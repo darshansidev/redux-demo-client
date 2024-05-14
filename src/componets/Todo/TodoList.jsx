@@ -64,10 +64,6 @@ const TodoList = () => {
         const todoData = { title, description };
 
         try {
-            // Simulate API call to add a todo (replace with your actual API call)
-            // await apiCallToAddTodo(todoData);
-
-            // Dispatch action to update Redux store upon successful todo addition
             await dispatch(addTodo(todoData));
             await dispatch(fetchTodoList());
             setFormData({
@@ -109,13 +105,12 @@ const TodoList = () => {
     }
 
     const handleUpdate = async (todoId) => {
-        
+
         dispatch(fetchTodoById(todoId));
         navigate(`/todo/item/${todoId}`);
     }
     return (
         <>
-
             <div className='container border  border-1  border-dark rounded-4 mt-5'>
                 <div className='container border  border-1  border-primary rounded-3 p-3 mt-3'>
                     <h1 className='d-flex justify-content-center '>Todo List</h1>
