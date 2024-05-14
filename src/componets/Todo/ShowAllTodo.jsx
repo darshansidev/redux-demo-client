@@ -40,13 +40,13 @@ const ShowAllTodo = () => {
         <div className='w-100'>
           <div>
             <form className="d-flex my-3 " role="search">
-              <input className="form-control me-2  border-black  " type="search" placeholder="Search" aria-label="Search" value={searchTerm} onChange={handleSearch} />
-              <button className="btn btn-outline-dark" type="submit">Search</button>
+              <input className="form-control me-2  border-black w-100  " type="search" placeholder="Search" aria-label="Search" value={searchTerm} onChange={handleSearch} />
+
             </form>
           </div>
 
           <div style={{ 'overflowX': 'auto' }}>
-            <table className="table table-striped  table-hover    ">
+            <table className="table table-striped  table-hover ">
               <thead className=' border border-1 border-dark '>
                 <tr>
                   <th scope="col">Index</th>
