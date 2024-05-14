@@ -1,12 +1,17 @@
-.text-field-color {
-
-    color: red !important;
+.history-text {
+    writing-mode: vertical-rl !important;
+    text-orientation: upright !important;
+    border: 1px solid rgb(30, 132, 172);
+    margin-right: 50px !important;
+    max-height: 650px !important;
 }
 
-.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input::placeholder {
-    color: red !important;
-}
-
-label[data-shrink=false]+.MuiInputBase-formControl .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-    background: white;
+@media (max-width : 767px) {
+    .history-text {
+        writing-mode: horizontal-tb !important;
+        text-orientation: upright !important;
+        text-align: center;
+        max-height: auto !important;
+        width: 100% !important;
+    }
 }

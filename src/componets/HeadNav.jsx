@@ -19,9 +19,6 @@ const HeadNav = () => {
             </div>
             <ul className={menuOpen ? "open" : ""}>
                 <li>
-                    <NavLink to="/todo/add">Add</NavLink>
-                </li>
-                <li>
                     <NavLink to="/todo/showAll">ShowAll</NavLink>
                 </li>
             </ul>

@@ -109,6 +109,7 @@ const TodoList = () => {
     }
 
     const handleUpdate = async (todoId) => {
+        
         dispatch(fetchTodoById(todoId));
         navigate(`/todo/item/${todoId}`);
     }

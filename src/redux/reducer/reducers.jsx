@@ -4,7 +4,8 @@ import * as actionTypes from '../action/ActionTypes';
 const initialState = {
     todoList: [],
     error: null,
-    singleTodo: {}
+    singleTodo: {},
+    allTodos: []
 };
 
 const todoReducer = (state = initialState, action) => {
@@ -15,6 +16,13 @@ const todoReducer = (state = initialState, action) => {
 
         case actionTypes.FETCH_TODOS_FAILURE:
             return { ...state, error: action.payload, singleTodo: {} };
+
+        //-------------------------------------- Get Todos--------------------------------------
+        case actionTypes.FETCH_ALL_TODO_SUCCESS:
+            return { ...state, allTodos: action.payload, error: null };
+
+        case actionTypes.FETCH_ALL_TODO_FAILURE:
+            return { ...state, error: action.payload };
 
         //-------------------------------------- Get By Id --------------------------------------
         case actionTypes.FETCH_SINGLE_TODO_SUCCESS:

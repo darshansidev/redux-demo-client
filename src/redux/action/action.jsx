@@ -46,10 +46,23 @@ export const addTodo = (todo) => {
     };
 };
 
-export const updateTodoSuccess = (todo) => ({
-    type: actionTypes.UPDATE_TODO_SUCCESS,
-    payload: todo
-});
+export const updateTodoData = (todoObject) => {
+    console.log(todoObject, "<action object>")
+    return async (dispatch) => {
+        try {
+            const response = await axios.put(`${baseUrl}/update-todo-list/${todoObject.todoId}`, {
+                title: todoObject.title,
+                description: todoObject.description
+            });
+
+            dispatch({ type: actionTypes.UPDATE_TODO_SUCCESS, payload: response });
+
+        } catch (error) {
+            // Dispatch ADD_TODO_FAILURE action with the error message
+            dispatch({ type: actionTypes.UPDATE_TODOS_FAILURE, payload: error.message });
+        }
+    };
+};
 
 
 
@@ -83,3 +96,16 @@ export const deleteTodo = (todoId) => {
     };
 };
 
+
+// Get All Todo including soft deleted data also
+export const fetchAllTodoList = () => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(`${baseUrl}/get-All-todo-list`);
+
+            dispatch({ type: actionTypes.FETCH_ALL_TODO_SUCCESS, payload: response.data });
+        } catch (error) {
+            dispatch({ type: actionTypes.FETCH_ALL_TODO_FAILURE, payload: error.message });
+        }
+    };
+};
